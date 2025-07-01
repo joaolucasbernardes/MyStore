@@ -1,10 +1,10 @@
-package com.joaolucas.curso;
+package com.joaolucas.mystore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CursoApplicationTests {
+class MyStoreApplicationTests {
 
 	@Test
 	void contextLoads() {
