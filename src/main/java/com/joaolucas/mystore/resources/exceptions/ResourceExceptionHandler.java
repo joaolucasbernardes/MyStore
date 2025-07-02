@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.joaolucas.mystore.services.exceptions.DatabaseException;
 import com.joaolucas.mystore.services.exceptions.ResourceNotFoundException;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,14 @@ public class ResourceExceptionHandler implements Serializable {
 	public ResponseEntity<StandardError> resourseNotFound(ResourceNotFoundException e, HttpServletRequest request) {
 		String error = "Recurso não Encontrado";
 		HttpStatus status = HttpStatus.NOT_FOUND;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	@ExceptionHandler(DatabaseException.class)
+	public ResponseEntity<StandardError> dataBase(DatabaseException e, HttpServletRequest request) {
+		String error = "Erro no banco de dados";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
